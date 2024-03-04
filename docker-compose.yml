@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  spring-boot-app:
+    build: .
+    ports:
+      - "8080:8080"  # Map port 8080 on the host to port 8080 on the container
+    depends_on:
+      - postgres-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/spring  # Use the service name as the hostname
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: yash
+    networks:
+      - backend
+
+  postgres-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: spring
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yash
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data  # Mount a volume for persistent data
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  pgdata:
