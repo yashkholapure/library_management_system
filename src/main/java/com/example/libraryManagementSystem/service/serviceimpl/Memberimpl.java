@@ -5,6 +5,8 @@ import com.example.libraryManagementSystem.entity.MemberEntity;
 import com.example.libraryManagementSystem.repository.MemberRepo;
 import com.example.libraryManagementSystem.service.MemberService;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -17,8 +19,8 @@ public class Memberimpl implements MemberService {
     }
 
     @Override
-    public List<MemberEntity> getMembers(){
-        return memberRepo_obj.findAll();
+    public Page<MemberEntity> getMembers(Pageable pageable){
+        return memberRepo_obj.findAll(pageable);
     }
 
     @Override
